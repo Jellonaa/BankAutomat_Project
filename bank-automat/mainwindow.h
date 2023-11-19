@@ -1,3 +1,4 @@
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
@@ -15,7 +16,11 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void authenticateUser();
+
 private:
     Ui::MainWindow *ui;
 };
+
 #endif // MAINWINDOW_H
