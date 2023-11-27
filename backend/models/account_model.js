@@ -9,17 +9,21 @@ const account = {
   },
   add: function(account, callback) {
     return db.query(
-      'insert into account (fname, lname, owner) values (?, ?, ?)',
-      [account.fname, account.lname, account.owner],
+      'insert into account (account_number, balance, owner, credit) values (?, ?, ?, ?)',
+      [account.account_number, account.balance, account.owner, account.credit],
       callback
     );
   },
   delete: function(id, callback) {
     return db.query('delete from account where account_number=?', [id], callback);
   },
-  update: function(id, amount, callback) {
+  update: function(id, account, callback) {
     console.log("account update function");
-    return db.query('update account set balance = balance + ? where account_number=?', [amount, id], callback);
+    return db.query(
+      'update account set balance=balance + ? where account_number=?',
+      [account.balance, id],
+      callback
+    );
   }
 };
 

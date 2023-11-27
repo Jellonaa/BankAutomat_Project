@@ -42,7 +42,7 @@ router.delete('/:id', function (request, response) {
   });
 });
 
-router.put('/', function (request, response) {
+/*router.put('/', function (request, response) {
   if (request.body.id && request.body.amount && request.body.type) {
     const id = request.body.id;
     const amount = request.body.amount;
@@ -65,6 +65,17 @@ router.put('/', function (request, response) {
     console.log("account put amount body malformed");
     response.send(false);
   }
+});*/
+
+router.put('/:id', 
+function(request, response) {
+  account.update(request.params.id, request.body, function(err, dbResult) {
+    if (err) {
+      response.json(err);
+    } else {
+      response.json(dbResult);
+    }
+  });
 });
 
 module.exports = router;
