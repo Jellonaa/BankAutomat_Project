@@ -27,6 +27,7 @@ void MainWindow::authenticateUser()
     QString password = ui->password->text();
 
 
+
     QJsonObject userObject;
     userObject["username"] = username;
     userObject["password"] = password;
@@ -36,19 +37,22 @@ void MainWindow::authenticateUser()
 
 
     QNetworkAccessManager *manager = new QNetworkAccessManager(this);
-    QNetworkRequest request(QUrl("REST_API_LOGIN_URL")); // Korvaa oikealla URL:llä
+    QNetworkRequest request(QUrl("http://localhost:3000/login")); // Korvaa oikealla URL:llä
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
     QNetworkReply *reply = manager->post(request, userData);
 
 
+
     connect(reply, &QNetworkReply::finished, [=]() {
-        if (reply->error() == QNetworkReply::NoError) {
+        //if (reply->error() == QNetworkReply::NoError) {
+        if(reply->readAll() !="false"){
 
             qDebug() << "Kirjautuminen onnistui!";
         } else {
 
             qDebug() << "Virhe kirjautumisessa:" << reply->errorString();
+            //qDebug() << "Virhe kirjautumisessa:" << reply->readAll();
         }
 
         reply->deleteLater();
