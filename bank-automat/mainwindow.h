@@ -2,7 +2,11 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "bankmenu.h"
 #include <QMainWindow>
+#include <QtNetwork>
+#include <QNetworkAccessManager>
+#include <QJsonDocument>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -19,8 +23,10 @@ public:
 private slots:
     void authenticateUser();
 
+
 private:
     Ui::MainWindow *ui;
+    BankMenu *objectBankMenu;
 };
 
 #endif // MAINWINDOW_H

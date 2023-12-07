@@ -30,6 +30,7 @@ public:
     QLineEdit *password;
     QLabel *label;
     QLabel *label_2;
+    QLabel *labelInfo;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -51,18 +52,22 @@ public:
         password->setGeometry(QRect(200, 310, 113, 22));
         label = new QLabel(centralwidget);
         label->setObjectName("label");
-        label->setGeometry(QRect(200, 140, 111, 41));
+        label->setGeometry(QRect(200, 160, 111, 41));
         QFont font;
         font.setPointSize(12);
         label->setFont(font);
         label_2 = new QLabel(centralwidget);
         label_2->setObjectName("label_2");
-        label_2->setGeometry(QRect(220, 260, 71, 31));
+        label_2->setGeometry(QRect(200, 280, 71, 31));
         label_2->setFont(font);
+        labelInfo = new QLabel(centralwidget);
+        labelInfo->setObjectName("labelInfo");
+        labelInfo->setGeometry(QRect(180, 390, 411, 41));
+        labelInfo->setFont(font);
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
-        menubar->setGeometry(QRect(0, 0, 800, 22));
+        menubar->setGeometry(QRect(0, 0, 800, 21));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName("statusbar");
@@ -77,8 +82,9 @@ public:
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
         loginButton->setText(QCoreApplication::translate("MainWindow", "Kirjaudu sis\303\244\303\244n", nullptr));
-        label->setText(QCoreApplication::translate("MainWindow", "K\303\244ytt\303\244j\303\244tunnus", nullptr));
-        label_2->setText(QCoreApplication::translate("MainWindow", "Salasana", nullptr));
+        label->setText(QCoreApplication::translate("MainWindow", "Kortin numero", nullptr));
+        label_2->setText(QCoreApplication::translate("MainWindow", "PIN", nullptr));
+        labelInfo->setText(QString());
     } // retranslateUi
 
 };

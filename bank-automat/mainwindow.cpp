@@ -49,10 +49,15 @@ void MainWindow::authenticateUser()
         if(reply->readAll() !="false"){
 
             qDebug() << "Kirjautuminen onnistui!";
+            objectBankMenu = new BankMenu(this);
+            objectBankMenu->show();
+            ui->labelInfo->setText("");
+
         } else {
 
             qDebug() << "Virhe kirjautumisessa:" << reply->errorString();
             //qDebug() << "Virhe kirjautumisessa:" << reply->readAll();
+            ui->labelInfo->setText("Virhe kirjautumisessa");
         }
 
         reply->deleteLater();

@@ -7,6 +7,8 @@
 *****************************************************************************/
 
 #include "../../mainwindow.h"
+#include <QtNetwork/QSslPreSharedKeyAuthenticator>
+#include <QtNetwork/QSslError>
 #include <QtCore/qmetatype.h>
 
 #if __has_include(<QtCore/qtmochelpers.h>)
