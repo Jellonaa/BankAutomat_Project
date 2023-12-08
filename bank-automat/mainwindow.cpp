@@ -52,6 +52,7 @@ void MainWindow::authenticateUser()
             ui->labelInfo->setText("");
 
             objectBankMenu = new BankMenu(this);
+            objectBankMenu->setId(ui->username->text());
             loginButton_clicked();
             objectBankMenu->show();
         } else {

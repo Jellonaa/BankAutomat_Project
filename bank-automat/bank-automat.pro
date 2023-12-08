@@ -12,15 +12,18 @@ CONFIG += c++17
 SOURCES += \
     bankmenu.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    withdrawal.cpp
 
 HEADERS += \
     bankmenu.h \
-    mainwindow.h
+    mainwindow.h \
+    withdrawal.h
 
 FORMS += \
     bankmenu.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    withdrawal.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
