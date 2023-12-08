@@ -58,6 +58,8 @@ void BankMenu::getAccountSlot(QNetworkReply *reply)
         account+=(json_obj["card_account"].toString());
     }
 
+    objectWithdrawal->setId(account);
+
     reply->deleteLater();
     getManager->deleteLater();
 
@@ -78,7 +80,7 @@ void BankMenu::getBalanceSlot(QNetworkReply *reply)
     QJsonObject json_obj = json_doc.object();
     QString balance = json_obj["balance"].toString();
     qDebug()<<balance;
-    objectWithdrawal->showBalance(balance+" €");
+    objectWithdrawal->showBalance(balance);
 
     reply->deleteLater();
     getManager->deleteLater();
