@@ -24,9 +24,16 @@ private slots:
     void authenticateUser();
 
 
+    void loginButton_clicked();
+    void getNameSlot (QNetworkReply *reply);
+    void setName (QNetworkReply *reply);
+
 private:
     Ui::MainWindow *ui;
     BankMenu *objectBankMenu;
+    QNetworkAccessManager *getManager;
+    QNetworkReply *reply;
+    QByteArray response_data;
 };
 
 #endif // MAINWINDOW_H

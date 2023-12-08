@@ -17,18 +17,10 @@ class BankMenu : public QDialog
 public:
     explicit BankMenu(QWidget *parent = nullptr);
     ~BankMenu();
-
-    void setFname(const QString &newFname);
-
-    void setLname(const QString &newLname);
-
-private slots:
-    void getNameSlot (QNetworkReply *reply);
+    void showName(QString);
 
 private:
     Ui::BankMenu *ui;
-    QString fname,lname;
-    void showName();
     QNetworkAccessManager *getManager;
     QNetworkReply *reply;
     QByteArray response_data;

@@ -49,10 +49,11 @@ void MainWindow::authenticateUser()
         if(reply->readAll() !="false"){
 
             qDebug() << "Kirjautuminen onnistui!";
-            objectBankMenu = new BankMenu(this);
-            objectBankMenu->show();
             ui->labelInfo->setText("");
 
+            objectBankMenu = new BankMenu(this);
+            loginButton_clicked();
+            objectBankMenu->show();
         } else {
 
             qDebug() << "Virhe kirjautumisessa:" << reply->errorString();
@@ -63,4 +64,56 @@ void MainWindow::authenticateUser()
         reply->deleteLater();
         manager->deleteLater();
     });
+}
+
+void MainWindow::loginButton_clicked()
+{
+    QString site_url="http://localhost:3000/card/" + ui->username->text();
+    QNetworkRequest request((site_url));
+    getManager = new QNetworkAccessManager(this);
+
+    connect(getManager, SIGNAL(finished (QNetworkReply*)), this, SLOT(getNameSlot(QNetworkReply*)));
+
+    reply = getManager->get(request);
+}
+
+
+void MainWindow::getNameSlot(QNetworkReply *reply)
+{
+    response_data=reply->readAll();
+    qDebug()<<"DATA : "+response_data;
+    QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
+    QJsonArray json_array = json_doc.array();
+    QString owner_id;
+    foreach (const QJsonValue &value, json_array) {
+        QJsonObject json_obj = value.toObject();
+        owner_id+=QString::number(json_obj["card_owner"].toInt());
+    }
+
+    QString site_url="http://localhost:3000/customer/" + owner_id;
+    QNetworkRequest request((site_url));
+    getManager = new QNetworkAccessManager(this);
+
+    connect(getManager, SIGNAL(finished (QNetworkReply*)), this, SLOT(setName(QNetworkReply*)));
+
+    reply = getManager->get(request);
+}
+
+void MainWindow::setName(QNetworkReply *reply)
+{
+    response_data=reply->readAll();
+    qDebug()<<"DATA : "+response_data;
+    QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
+    QJsonArray json_array = json_doc.array();
+    QString name;
+    foreach (const QJsonValue &value, json_array) {
+        QJsonObject json_obj = value.toObject();
+        name+=(json_obj["fname"].toString())+" "+json_obj["lname"].toString();
+    }
+
+
+    objectBankMenu->showName(name);
+
+    reply->deleteLater();
+    getManager->deleteLater();
 }
