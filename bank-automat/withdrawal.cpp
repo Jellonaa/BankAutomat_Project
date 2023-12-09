@@ -18,6 +18,19 @@ void Withdrawal::showBalance(QString rahat)
     ui->textRahat->setText(rahat);
 }
 
+void Withdrawal::showCredit(QString credit)
+{
+    if (credit.toFloat() > 0) {
+        ui->textLuottoLuku->setText(credit);
+        ui->textLuottoEuro->setText("€");
+        ui->textLuotto->setText("Luotto :");
+    } else {
+        ui->textLuottoLuku->setText("");
+        ui->textLuottoEuro->setText("");
+        ui->textLuotto->setText("");
+    }
+}
+
 void Withdrawal::setId(const QString &newId)
 {
     id = newId;
@@ -33,12 +46,13 @@ void Withdrawal::on_btnHyvaksy_clicked()
 {
     float rahat = ui->textRahat->text().toFloat();
     float nosto = ui->lineEdit->text().toFloat();
+    float luotto = ui->textLuottoLuku->text().toFloat();
 
     //qDebug() << rahat;
     //qDebug() << nosto;
 
     if (nosto > 0) {
-        if (rahat - nosto >= 0) {
+        if (rahat + luotto - nosto >= 0) {
             QJsonObject jsonObj;
             jsonObj.insert("balance",-(ui->lineEdit->text().toFloat()));
 
@@ -52,7 +66,7 @@ void Withdrawal::on_btnHyvaksy_clicked()
             reply = putManager->put(request, QJsonDocument(jsonObj).toJson());
             ui->textInfo->setText("Nostettiin "+ QString::number(nosto) +" €");
         } else {
-            ui->textInfo->setText("Ei tarpeeksi rahaa tähän");
+            ui->textInfo->setText("Tilillä ei ole tarpeeksi rahaa tähän");
         }
     } else {
         ui->textInfo->setText("Anna positiivinen luku");

@@ -18,6 +18,7 @@ public:
     explicit Withdrawal(QWidget *parent = nullptr);
     ~Withdrawal();
     void showBalance(QString);
+    void showCredit(QString);
     void setId(const QString &newId);
     QString id;
 
