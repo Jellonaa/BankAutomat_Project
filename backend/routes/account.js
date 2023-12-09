@@ -78,4 +78,15 @@ function(request, response) {
   });
 });
 
+router.patch('/:id', 
+function(request, response) {
+  account.patch(request.params.id, request.body, function(err, dbResult) {
+    if (err) {
+      response.json(err);
+    } else {
+      response.json(dbResult);
+    }
+  });
+});
+
 module.exports = router;

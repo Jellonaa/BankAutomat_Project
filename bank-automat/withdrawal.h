@@ -21,6 +21,10 @@ public:
     void showCredit(QString);
     void setId(const QString &newId);
     QString id;
+    void setCredit(const QString &newCredit);
+    QString credit;
+    void setOwner(const QString &newOwner);
+    QString owner;
 
 private slots:
     void on_btnSulje_clicked();

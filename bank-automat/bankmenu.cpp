@@ -80,8 +80,14 @@ void BankMenu::getBalanceSlot(QNetworkReply *reply)
     QJsonObject json_obj = json_doc.object();
     QString balance = json_obj["balance"].toString();
     QString credit = json_obj["credit"].toString();
-    qDebug()<<balance;
+    QString owner = QString::number(json_obj["owner"].toInt());
+    //qDebug()<<balance;
+    //qDebug()<<owner;
     objectWithdrawal->showBalance(balance);
+
+    objectWithdrawal->setCredit(credit);
+    objectWithdrawal->setOwner(owner);
+
     objectWithdrawal->showCredit(credit);
 
     reply->deleteLater();

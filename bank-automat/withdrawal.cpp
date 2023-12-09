@@ -36,6 +36,16 @@ void Withdrawal::setId(const QString &newId)
     id = newId;
 }
 
+void Withdrawal::setCredit(const QString &newCredit)
+{
+    credit = newCredit;
+}
+
+void Withdrawal::setOwner(const QString &newOwner)
+{
+    owner = newOwner;
+}
+
 void Withdrawal::on_btnSulje_clicked()
 {
     close();
@@ -45,7 +55,7 @@ void Withdrawal::on_btnSulje_clicked()
 void Withdrawal::on_btnHyvaksy_clicked()
 {
     float rahat = ui->textRahat->text().toFloat();
-    float nosto = ui->lineEdit->text().toFloat();
+    float nosto = floorf(ui->lineEdit->text().toFloat()*100)/100;
     float luotto = ui->textLuottoLuku->text().toFloat();
 
     //qDebug() << rahat;
@@ -54,7 +64,10 @@ void Withdrawal::on_btnHyvaksy_clicked()
     if (nosto > 0) {
         if (rahat + luotto - nosto >= 0) {
             QJsonObject jsonObj;
-            jsonObj.insert("balance",-(ui->lineEdit->text().toFloat()));
+            jsonObj.insert("balance", rahat - nosto);
+            jsonObj.insert("credit", credit);
+            jsonObj.insert("owner", owner);
+            // Olisin tehnyt tämän patch-requestilla mutta en osannut tehdä sallaista QT:lla
 
             QString site_url="http://localhost:3000/account/" + id;
             QNetworkRequest request((site_url));
@@ -69,7 +82,7 @@ void Withdrawal::on_btnHyvaksy_clicked()
             ui->textInfo->setText("Tilillä ei ole tarpeeksi rahaa tähän");
         }
     } else {
-        ui->textInfo->setText("Anna positiivinen luku");
+        ui->textInfo->setText("Anna nollaa suurempi luku");
     }
 }
 
@@ -96,7 +109,7 @@ void Withdrawal::getBalanceSlot(QNetworkReply *reply)
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
     QJsonObject json_obj = json_doc.object();
     QString balance = json_obj["balance"].toString();
-    qDebug()<<balance;
+    //qDebug()<<balance;
     showBalance(balance);
 
     reply->deleteLater();

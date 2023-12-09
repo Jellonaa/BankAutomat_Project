@@ -20,6 +20,14 @@ const account = {
   update: function(id, account, callback) {
     console.log("account update function");
     return db.query(
+      'update account set balance = ?, owner = ?, credit = ? where account_number=?',
+      [account.balance, account.owner, account.credit, id],
+      callback
+    );
+  },
+  patch: function(id, account, callback) {
+    console.log("account patch function");
+    return db.query(
       'update account set balance=balance + ? where account_number=?',
       [account.balance, id],
       callback
