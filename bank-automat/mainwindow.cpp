@@ -13,6 +13,18 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     connect(ui->loginButton, &QPushButton::clicked, this, &MainWindow::authenticateUser);
+
+    connect(ui->btn0, SIGNAL(clicked()), this, SLOT(handleBtnNumber()));
+    connect(ui->btn1, SIGNAL(clicked()), this, SLOT(handleBtnNumber()));
+    connect(ui->btn2, SIGNAL(clicked()), this, SLOT(handleBtnNumber()));
+    connect(ui->btn3, SIGNAL(clicked()), this, SLOT(handleBtnNumber()));
+    connect(ui->btn4, SIGNAL(clicked()), this, SLOT(handleBtnNumber()));
+    connect(ui->btn5, SIGNAL(clicked()), this, SLOT(handleBtnNumber()));
+    connect(ui->btn6, SIGNAL(clicked()), this, SLOT(handleBtnNumber()));
+    connect(ui->btn7, SIGNAL(clicked()), this, SLOT(handleBtnNumber()));
+    connect(ui->btn8, SIGNAL(clicked()), this, SLOT(handleBtnNumber()));
+    connect(ui->btn9, SIGNAL(clicked()), this, SLOT(handleBtnNumber()));
+    connect(ui->btnClear, SIGNAL(clicked()), this, SLOT(handleBtnClear()));
 }
 
 MainWindow::~MainWindow()
@@ -22,30 +34,31 @@ MainWindow::~MainWindow()
 
 void MainWindow::authenticateUser()
 {
+    if (ui->password->text() != "") {
 
-    QString username = ui->username->text();
-    QString password = ui->password->text();
-
-
-
-    QJsonObject userObject;
-    userObject["username"] = username;
-    userObject["password"] = password;
-
-    QJsonDocument userDocument(userObject);
-    QByteArray userData = userDocument.toJson();
-
-
-    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
-    QNetworkRequest request(QUrl("http://localhost:3000/login")); // Korvaa oikealla URL:llä
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-
-    QNetworkReply *reply = manager->post(request, userData);
+        QString username = ui->username->text();
+        QString password = ui->password->text();
 
 
 
-    connect(reply, &QNetworkReply::finished, [=]() {
-        //if (reply->error() == QNetworkReply::NoError) {
+        QJsonObject userObject;
+        userObject["username"] = username;
+        userObject["password"] = password;
+
+        QJsonDocument userDocument(userObject);
+        QByteArray userData = userDocument.toJson();
+
+
+        QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+        QNetworkRequest request(QUrl("http://localhost:3000/login")); // Korvaa oikealla URL:llä
+        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+        QNetworkReply *reply = manager->post(request, userData);
+
+
+
+        connect(reply, &QNetworkReply::finished, [=]() {
+            //if (reply->error() == QNetworkReply::NoError) {
         if(reply->readAll() !="false"){
 
             qDebug() << "Kirjautuminen onnistui!";
@@ -64,7 +77,11 @@ void MainWindow::authenticateUser()
 
         reply->deleteLater();
         manager->deleteLater();
-    });
+
+        });
+    } else {
+        editPass = true;
+    }
 }
 
 void MainWindow::loginButton_clicked()
@@ -117,4 +134,26 @@ void MainWindow::setName(QNetworkReply *reply)
 
     reply->deleteLater();
     getManager->deleteLater();
+}
+
+void MainWindow::handleBtnNumber()
+{
+    if (editPass == false) {
+        QString teksti = ui->username->text();
+        QPushButton * button = qobject_cast<QPushButton*>(sender());
+        QString numero = button->text();
+        ui->username->setText(teksti+numero);
+    } if (editPass == true) {
+        QString teksti = ui->password->text();
+        QPushButton * button = qobject_cast<QPushButton*>(sender());
+        QString numero = button->text();
+        ui->password->setText(teksti+numero);
+    }
+}
+
+void MainWindow::handleBtnClear()
+{
+    ui->password->clear();
+    ui->username->clear();
+    editPass = false;
 }

@@ -28,7 +28,8 @@ public:
 
 private slots:
     void on_btnSulje_clicked();
-
+    void handleBtnNumber();
+    void handleBtnClear();
     void on_btnHyvaksy_clicked();
 
     void updateBalanceSlot (QNetworkReply *reply);

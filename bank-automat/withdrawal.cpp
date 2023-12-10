@@ -6,6 +6,19 @@ Withdrawal::Withdrawal(QWidget *parent)
     , ui(new Ui::Withdrawal)
 {
     ui->setupUi(this);
+
+    connect(ui->btn0, SIGNAL(clicked()), this, SLOT(handleBtnNumber()));
+    connect(ui->btn1, SIGNAL(clicked()), this, SLOT(handleBtnNumber()));
+    connect(ui->btn2, SIGNAL(clicked()), this, SLOT(handleBtnNumber()));
+    connect(ui->btn3, SIGNAL(clicked()), this, SLOT(handleBtnNumber()));
+    connect(ui->btn4, SIGNAL(clicked()), this, SLOT(handleBtnNumber()));
+    connect(ui->btn5, SIGNAL(clicked()), this, SLOT(handleBtnNumber()));
+    connect(ui->btn6, SIGNAL(clicked()), this, SLOT(handleBtnNumber()));
+    connect(ui->btn7, SIGNAL(clicked()), this, SLOT(handleBtnNumber()));
+    connect(ui->btn8, SIGNAL(clicked()), this, SLOT(handleBtnNumber()));
+    connect(ui->btn9, SIGNAL(clicked()), this, SLOT(handleBtnNumber()));
+    connect(ui->btnPiste, SIGNAL(clicked()), this, SLOT(handleBtnNumber()));
+    connect(ui->btnClear, SIGNAL(clicked()), this, SLOT(handleBtnClear()));
 }
 
 Withdrawal::~Withdrawal()
@@ -49,6 +62,19 @@ void Withdrawal::setOwner(const QString &newOwner)
 void Withdrawal::on_btnSulje_clicked()
 {
     close();
+}
+
+void Withdrawal::handleBtnNumber()
+{
+    QString teksti = ui->lineEdit->text();
+    QPushButton * button = qobject_cast<QPushButton*>(sender());
+    QString numero = button->text();
+    ui->lineEdit->setText(teksti+numero);
+}
+
+void Withdrawal::handleBtnClear()
+{
+    ui->lineEdit->clear();
 }
 
 

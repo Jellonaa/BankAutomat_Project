@@ -27,6 +27,8 @@ private slots:
     void loginButton_clicked();
     void getNameSlot (QNetworkReply *reply);
     void setName (QNetworkReply *reply);
+    void handleBtnNumber();
+    void handleBtnClear();
 
 private:
     Ui::MainWindow *ui;
@@ -34,6 +36,7 @@ private:
     QNetworkAccessManager *getManager;
     QNetworkReply *reply;
     QByteArray response_data;
+    bool editPass = false;
 };
 
 #endif // MAINWINDOW_H
